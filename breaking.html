@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <style>
+        * {
+            font-family: 'Cairo', sans-serif;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #191919;
+            padding-left: 50px;
+            padding-right: 50px;
+        }
+
+        #logo {
+           
+            margin: 50px auto;
+            height: 100px;
+            display: block;  
+        }
+        .actor {
+            display: grid;
+            grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+            grid-gap: 20px;
+
+        }
+        .actor-box {
+            width: 300px;
+            height: 300px;
+            background-color: #eee;
+            position: relative;
+            overflow: hidden;
+            transition: 0.6s ;
+            z-index: 2;
+        }
+
+        .actor-box img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            object-position: top center;
+            position: absolute;
+            z-index: 1;
+        }
+        .actor-box .actor-info {
+            width: 100%;
+            height: 100px;
+            background-color: #fff;
+            position: absolute;
+            bottom: -100px;
+            left: 0;
+            transition: 0.6s;
+            z-index: 4;
+        }
+        .actor-box:hover .actor-info {
+            bottom: 0;
+        }
+
+     
+        .actor-box .actor-info h5 , .actor-box .actor-info h4 {
+            text-align: center;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .actor-box .actor-info h5 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Breaking_Bad_logo.svg/800px-Breaking_Bad_logo.svg.png" alt="" id="logo">
+    <div class="actor"></div>
+    <script>
+        let arr = [];
+        fetch('https://www.breakingbadapi.com/api/characters').then(response => {
+            return response.json();
+        }).then((data, callback) => {
+            setTimeout(()=> {
+                for(i = 0 ; i < data.length ; i++) {
+                arr.push(data[i]);
+            }
+                getArr();
+                
+            },1000);
+            
+        })
+        function getArr() {
+            for(i = 0 ; i < arr.length ; i++) {
+                let div = document.createElement('div');
+                div.className = 'actor-box';
+                document.querySelector('div.actor').appendChild(div);
+                div.innerHTML = `<img src= '${arr[i].img}'/><span class="actor-info"><h4>Full Name : ${arr[i].name}</h4><h5>Birthday: ${arr[i].birthday}</h5></span>'`;
+
+            }
+        }
+
+        
+    </script>
+</body>
+</html>
